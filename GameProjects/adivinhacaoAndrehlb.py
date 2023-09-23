@@ -1,129 +1,57 @@
 import random
+import os
 
-#random.random()
-""" para arredondar o número:
-round(random.random() * 100) """
-# função int, que irá converter o número aleatório, que é um float, em um número inteiro
-def jogo_adivinhacao():
-    int(random.random() * 100)
-# função que arredonda esse número
-    numero_random = random.random() * 100
-    round(numero_random)
+def pip_update(lib):
+    os.system('cls' if os.name == 'nt' else 'clear')
+    install_nt = f'pip install {lib} --user'
+    os.system(install_nt if os.name == 'nt' else f'pip install {lib}')
+    os.system('cls' if os.name == 'nt' else 'clear')
 
-    print(33 * "*")
-    #print("*********************************")
-    print("Bem vindo ao jogo de Adivinhação!")
-    print(33 * "*")
-    #print("*********************************")
-    numero_secreto = random.randrange(1, 101)
-    #numero_secreto = round(random.random() * 100)
-    #numero_secreto = 42
-    total_de_tentativas = 3
-    print("Escolha o nível de dificuldade")
-    print(" 1 - Fácil | 2 - Médio | 3 - Difícil")
-    nivel = int(input("Digite o nível escolhido: "))
-    
-    if(nivel == 1):
-        total_de_tentativas = 20
-    elif(nivel == 2):
-        total_de_tentativas = 10
-    else:
-        total_de_tentativas = 5          
-    tentativa = 1
-    for tentativa in range (1, total_de_tentativas + 1):
-    #while (total_de_tentativas > 0):
-    #while (total_de_tentativas >= tentativa):
-        #print("Tentativa", tentativa, "de", total_de_tentativas)
-        print("Tentativa {} de {}".format(tentativa, total_de_tentativas))
-        chute_str = input("Digite um número entre 1 e 100: ")
-        #chute_str = input("Digite teu número: ")
-        print("Você digitiou: ", chute_str)
-        chute = int(chute_str)
-        if(chute < 1 or chute > 100):
-            print ("Vocês deve digitar um número entre 1 e 100!")
-            continue
-        acertou = chute == numero_secreto
-        maior = chute > numero_secreto
-        menor = chute < numero_secreto
-        pontos = 1000
-        if (acertou):
-            print("Parabéns, você acertou e fez {} pontos" .format(pontos))
-            break
+pip_update('yollor')
+from yollor import *
+
+def frases_asteriscos(stringFrase):
+    tamanho = len(stringFrase) + 6
+    print(c.red(35 * "*"))
+    print(c.red("*** {} ***" .format(stringFrase.center(33 - 8))))
+    #print("*** {} ***" .format(stringFrase2.center(33 - 8)))
+    print(c.red(35 * "*"))
+
+frases_asteriscos("Bem Vindo ao Jogo da Forca!")
+
+def jogar_forca():
+    print(f"{t.hashtag_red} {c.cyan('Bem-vindo ao Jogo da ')}{c.red('Forca!')}")
+    palavras = ["python", "java", "kotlin", "javascript", "ruby", "go", "rust", "c", "swift", "php", "html", "css", "assembly", "sql", "typescript", "lua", "r", "shell", "dart", "gml"]
+    palavra_secreta = random.choice(palavras)
+    letras_acertadas = ["_" for letra in palavra_secreta]
+
+    enforcamentos = 6
+    tentativas = 0
+
+    print(t.hashtag_red, c.cyan("A palavra tem"), c.red(len(palavra_secreta)), c.cyan("letras"))
+    print(" ".join(letras_acertadas))
+
+    while enforcamentos > 0 and "_" in letras_acertadas:
+        tentativa = input(f"{c.cyan('Adivinhe uma ')}{c.red('letra: ')}").strip().lower()
+        if tentativa in palavra_secreta:
+            index = 0
+            for letra in palavra_secreta:
+                if letra == tentativa:
+                    letras_acertadas[index] = letra
+                index += 1
+            print(" ".join(letras_acertadas))
         else:
-            if(maior):
-                print("Chute errado! Foi maior que o número secreto.")
-            elif(menor):
-                print("Chute errado! Foi menor que o número secreto.")
-            pontos_perdididos = abs(numero_secreto - chute)
-print(33 * "*")
-#print("*********************************")
-print("Bem vindo ao jogo de Adivinhação!")
-print(33 * "*")
-#print("*********************************")
-numero_secreto = random.randrange(1, 101)
-#numero_secreto = round(random.random() * 100)
-#numero_secreto = 42
-total_de_tentativas = 3
-print("Escolha o nível de dificuldade")
-print(" 1 - Fácil | 2 - Médio | 3 - Difícil")
-nivel = int(input("Digite o nível escolhido: "))
+            enforcamentos -= 1
+            print(f"{c.red('Você errou!')} {c.cyan('Ainda restam')} {c.yellow(enforcamentos)} {c.cyan('tentativas')}")
 
-if(nivel == 1):
-    total_de_tentativas = 20
-elif(nivel == 2):
-    total_de_tentativas = 10
-else:
-    total_de_tentativas = 5          
-tentativa = 1
-for tentativa in range (1, total_de_tentativas + 1):
-#while (total_de_tentativas > 0):
-#while (total_de_tentativas >= tentativa):
-    #print("Tentativa", tentativa, "de", total_de_tentativas)
-    print("Tentativa {} de {}".format(tentativa, total_de_tentativas))
-    chute_str = input("Digite um número entre 1 e 100: ")
-    #chute_str = input("Digite teu número: ")
-    print("Você digitiou: ", chute_str)
-    chute = int(chute_str)
-    if(chute < 1 or chute > 100):
-        print ("Vocês deve digitar um número entre 1 e 100!")
-        continue
-    acertou = chute == numero_secreto
-    maior = chute > numero_secreto
-    menor = chute < numero_secreto
-    pontos = 1000
-    if (acertou):
-        print("Parabéns, você acertou e fez {} pontos" .format(pontos))
-        break
+    if "_" not in letras_acertadas:
+        print(f"{c.cyan('Você')} {c.green('ganhou!')}")
     else:
-        if(maior):
-            print("Chute errado! Foi maior que o número secreto.")
-        elif(menor):
-            print("Chute errado! Foi menor que o número secreto.")
-        pontos_perdididos = abs(numero_secreto - chute)
-        pontos = pontos - pontos_perdididos
-    total_de_tentativas = total_de_tentativas - 1
-    tentativa = tentativa + 1
-    if total_de_tentativas == 0:
-        print("O número era {}".format(numero_secreto))
-print(12 * "*")
-print("Fim de Jogo!")
-print(12 * "*")
-#print("O tipo de variável de chute é: ", type(chute))
-# @Author: André Luiz Barbosa (Andrehlb)
-# Desenvolve 2023 | GB | Alura Cursos Online
-# Path: #https://github.com/Andrehlb/dvelopment.github.io/blob/main/GameProjects/advinhacaoAndrehlb.py#L34
-if(__name__ == "__main__"):
-    jogo_adivinhacao()
+        print(f"{t.hashtag_red} {c.cyan('Você')} {c.red('perdeu!')}")
+        print(c.cyan('A palavra era '), c.yellow(palavra_secreta))
 
-stringBJA = "Bem vindo ao jogo de Adivinhação!"
-stringFJ = "Fim de Jogo!"
-print("O tamanho das strings são:", len(stringBJA), "|", len(stringFJ))
-""" print("O tamanho das strings são: ", end="")
-print(len(stringBJA), len(stringFJ), sep=" | ") """
-#print("O tamanho das strings são: ", len(stringBJA), len(stringFJ), sep=" | ")
-#print("**************")
-"""stringBJA = "Bem vindo ao jogo de Adivinhação!"
-    stringFJ = "Fim de Jogo!"
-    print(len(stringBJA))
-    print(len(stringFJ))
-"""
+def main():
+    jogar_forca()
+
+if __name__ == "__main__":
+    main()
